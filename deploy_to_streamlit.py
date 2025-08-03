@@ -59,9 +59,12 @@ def check_requirements():
         heavy_deps = ['torch', 'transformers', 'sentence-transformers', 'faiss-cpu']
         found_heavy = []
         
-        for dep in heavy_deps:
-            if dep in content and not dep.startswith('#'):
-                found_heavy.append(dep)
+        for line in content.split('\n'):
+            line = line.strip()
+            if line and not line.startswith('#'):
+                for dep in heavy_deps:
+                    if dep in line:
+                        found_heavy.append(dep)
         
         if found_heavy:
             print("⚠️  Warning: Found heavy ML dependencies in requirements.txt:")
