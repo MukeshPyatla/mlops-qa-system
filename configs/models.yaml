@@ -1,0 +1,91 @@
+# Models Configuration
+# This file defines the models used in the RAG pipeline
+
+embedding:
+  model: "sentence-transformers/all-MiniLM-L6-v2"
+  dimension: 384
+  max_length: 512
+  device: "auto"  # "cpu", "cuda", or "auto"
+  
+  # Model-specific settings
+  normalize_embeddings: true
+  use_auth_token: false
+  
+  # Performance settings
+  batch_size: 32
+  show_progress_bar: true
+
+llm:
+  model: "mistralai/Mistral-7B-Instruct-v0.2"
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 0.9
+  repetition_penalty: 1.1
+  
+  # Generation settings
+  do_sample: true
+  num_beams: 1
+  early_stopping: true
+  
+  # Model loading
+  device_map: "auto"
+  torch_dtype: "auto"
+  load_in_8bit: false
+  load_in_4bit: false
+
+# Vector Database Configuration
+vector_db:
+  type: "faiss"
+  index_type: "IndexFlatIP"  # Inner Product for cosine similarity
+  dimension: 384
+  
+  # Search settings
+  top_k: 5
+  similarity_threshold: 0.7
+  
+  # Index settings
+  normalize_L2: true
+  use_gpu: false
+
+# RAG Pipeline Configuration
+rag:
+  # Retrieval settings
+  max_context_length: 4000
+  context_window: 2000
+  
+  # Prompt templates
+  system_prompt: |
+    You are a helpful AI assistant that answers questions based on the provided context. 
+    Always base your answers on the given context and cite your sources when possible.
+    If the context doesn't contain enough information to answer the question, say so.
+    
+  user_prompt_template: |
+    Context: {context}
+    
+    Question: {question}
+    
+    Answer the question based on the context provided above. If the context doesn't contain enough information, say so.
+
+# Model Caching
+caching:
+  enable_cache: true
+  cache_dir: ".cache"
+  max_cache_size: "10GB"
+  
+  # Cache invalidation
+  cache_ttl: 86400  # 24 hours in seconds
+  force_refresh: false
+
+# Performance Optimization
+performance:
+  # Parallel processing
+  num_workers: 4
+  max_concurrent_requests: 10
+  
+  # Memory management
+  max_memory_usage: "8GB"
+  enable_gradient_checkpointing: false
+  
+  # Batch processing
+  embedding_batch_size: 32
+  inference_batch_size: 1 

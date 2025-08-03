@@ -1,0 +1,102 @@
+# Data Sources Configuration
+# This file defines the sources from which the system will collect data
+
+sources:
+  documentation:
+    - name: "FastAPI Documentation"
+      url: "https://fastapi.tiangolo.com/"
+      type: "markdown"
+      selector: "main"
+      update_frequency: "daily"
+      
+    - name: "Python Documentation"
+      url: "https://docs.python.org/3/"
+      type: "html"
+      selector: "#content"
+      update_frequency: "weekly"
+      
+    - name: "Machine Learning Documentation"
+      url: "https://scikit-learn.org/stable/"
+      type: "html"
+      selector: ".bd-content"
+      update_frequency: "weekly"
+
+  wikipedia:
+    - topics: 
+        - "Machine Learning"
+        - "Artificial Intelligence"
+        - "Deep Learning"
+        - "Natural Language Processing"
+        - "Retrieval-Augmented Generation"
+        - "Vector Database"
+        - "BERT (language model)"
+        - "FAISS"
+        - "Mistral AI"
+        - "Hugging Face"
+      language: "en"
+      max_pages_per_topic: 5
+      update_frequency: "weekly"
+
+  news:
+    - name: "Tech News"
+      rss_feed: "https://feeds.feedburner.com/TechCrunch/"
+      max_articles: 50
+      update_frequency: "hourly"
+      
+    - name: "AI News"
+      rss_feed: "https://www.artificialintelligence-news.com/feed/"
+      max_articles: 30
+      update_frequency: "hourly"
+      
+    - name: "ML News"
+      rss_feed: "https://www.machinelearningnews.com/feed/"
+      max_articles: 30
+      update_frequency: "daily"
+
+  github:
+    - name: "Popular ML Repositories"
+      search_terms:
+        - "machine learning"
+        - "deep learning"
+        - "natural language processing"
+        - "rag pipeline"
+        - "vector database"
+      language: "Python"
+      sort: "stars"
+      max_repos: 20
+      update_frequency: "weekly"
+
+# Data Processing Configuration
+processing:
+  chunk_size: 1000
+  chunk_overlap: 200
+  min_chunk_size: 100
+  max_chunk_size: 2000
+  
+  # Text cleaning
+  remove_html: true
+  remove_urls: true
+  remove_emails: true
+  normalize_whitespace: true
+  
+  # Metadata extraction
+  extract_metadata: true
+  metadata_fields:
+    - "source"
+    - "url"
+    - "title"
+    - "date"
+    - "author"
+    - "category"
+
+# Storage Configuration
+storage:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  metadata_file: "data/metadata.json"
+  cache_dir: ".cache"
+  
+  # Backup configuration
+  backup_enabled: true
+  backup_frequency: "daily"
+  max_backups: 7 
